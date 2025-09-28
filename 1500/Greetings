@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+
+template<typename T>
+using ordered_set = tree<T,null_type,less<T>,rb_tree_tag,tree_order_statistics_node_update>;
+
+
+long long solve(vector<vector<int>>&pairs){
+    int n = pairs.size();
+
+    //nlogn me kr skte h at max
+
+    //sb ek saat ek speed se move kr rhe h aur sbka start and end distinct bhi hai isa mtlb wo
+    //tbhi handshake kr payenge jb jiska end phele aata h wo ruk jaaye and also start meet wle 
+
+    //sort on basis of that jinka start point peche h and end point bhi less hai
+    sort(pairs.begin(),pairs.end());
+
+    ordered_set<int>set;
+    long long count = 0;
+    for(int i = 0;i<n;i++){
+        set.insert(pairs[i][1]);
+        int idx = set.order_of_key(pairs[i][1]);
+
+        count+=set.size()-(1+idx);
+
+
+    }
+    return count;
+
+
+
+}
+int main(){
+
+    int t;
+    cin>>t;
+
+    while(t--){
+        int n;
+        cin>>n;
+
+        vector<vector<int>>pairs;
+        while(n--){
+            int a,b;
+            cin>>a>>b;
+            pairs.push_back({a,b});
+        }
+        cout<<solve(pairs)<<"\n";
+    }
+
+}
